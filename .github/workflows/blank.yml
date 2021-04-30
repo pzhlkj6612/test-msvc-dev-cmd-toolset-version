@@ -1,0 +1,18 @@
+name: CI
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: windows-2019
+    strategy:
+      fail-fast: false
+      matrix:
+        toolset_version: [14, 14.0, 14.1, 14.2]
+    steps:
+      - uses: ilammy/msvc-dev-cmd@dd5e2fa0a7de1e7929605d9ecc020e749d9856a3
+        with:
+          toolset: ${{ matrix.toolset_version }}
+      - run: cl.exe
+      - run: set
