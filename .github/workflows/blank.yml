@@ -15,4 +15,4 @@ jobs:
         with:
           toolset: ${{ matrix.toolset_version }}
       - run: cl.exe
-      - run: set
+      - run: Get-Item -Path Env:\ | Format-List
