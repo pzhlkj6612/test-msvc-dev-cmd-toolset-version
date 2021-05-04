@@ -31,6 +31,10 @@ jobs:
           - "14.28"
           - "14.29"
     steps:
+      - name: Get all toolset versions
+        run: Get-ChildItem -Path 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC'
+      - name: Get all redist versions
+        run: Get-ChildItem -Path 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Redist\MSVC'
       - uses: ilammy/msvc-dev-cmd@dd5e2fa0a7de1e7929605d9ecc020e749d9856a3
         with:
           toolset: ${{ matrix.toolset_version }}
