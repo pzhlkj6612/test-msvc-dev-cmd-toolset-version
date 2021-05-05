@@ -9,6 +9,17 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        sdk_version:
+          - ""
+          - "10.0.10240.0"
+          - "10.0.10586.212"
+          - "10.0.14393.795"
+          - "10.0.15063.468"
+          - "10.0.16299.91"
+          - "10.0.17134.12"
+          - "10.0.17763.0"
+          - "10.0.18362.1"
+          - "10.0.19041.0"
         toolset_version:
           - ""
           - "14"
@@ -31,12 +42,15 @@ jobs:
           - "14.28"
           - "14.29"
     steps:
+      - name: Get all Windows 10 SDK versions
+        run: Get-ChildItem -Path 'C:\Program Files (x86)\Windows Kits\10\Include'
       - name: Get all toolset versions
         run: Get-ChildItem -Path 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC'
       - name: Get all redist versions
         run: Get-ChildItem -Path 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Redist\MSVC'
       - uses: ilammy/msvc-dev-cmd@dd5e2fa0a7de1e7929605d9ecc020e749d9856a3
         with:
+          sdk: ${{ matrix.sdk_version }}
           toolset: ${{ matrix.toolset_version }}
       - run: cl.exe
       - run: Get-Item -Path Env:\ | Format-List
