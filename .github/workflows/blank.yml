@@ -9,47 +9,26 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        sdk_version:
-          - ""
-          - "10.0.10240.0"
-          - "10.0.10586.0"
-          - "10.0.14393.0"
-          - "10.0.15063.0"
-          - "10.0.16299.0"
-          - "10.0.17134.0"
-          - "10.0.17763.0"
-          - "10.0.18362.0"
-          - "10.0.19041.0"
-        toolset_version:
-          - ""
-          - "14"
-          - "14.0"
-          - "14.1"
-          - "14.11"
-          - "14.12"
-          - "14.13"
-          - "14.14"
-          - "14.15"
-          - "14.16"
-          - "14.2"
-          - "14.21"
-          - "14.22"
-          - "14.23"
-          - "14.24"
-          - "14.25"
-          - "14.26"
-          - "14.27"
-          - "14.28"
+        env_name:
+          - "platform"
+          - "Platform"  # vcvarsall
+          - "PLATFORM"  # issue#38
+    env:
+      ${{ matrix.env_name }}: foobar
     steps:
-      - name: Get all Windows 10 SDK versions
-        run: Get-ChildItem -Path 'C:\Program Files (x86)\Windows Kits\10\Include'
-      - name: Get all toolset versions
-        run: Get-ChildItem -Path 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC'
-      - name: Get all redist versions
-        run: Get-ChildItem -Path 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Redist\MSVC'
       - uses: ilammy/msvc-dev-cmd@d39d8f7626e5667b00caa504eaefd7c24c9ba49d  # v1.7.0
-        with:
-          sdk: ${{ matrix.sdk_version }}
-          toolset: ${{ matrix.toolset_version }}
-      - run: cl.exe
-      - run: Get-Item -Path Env:\ | Format-List
+      - shell: bash -l {0}  # Invalid value: bash -l {0}
+        run: |
+          echo $${{ matrix.env_name }}
+      - shell: bash
+        run: |
+          echo $${{ matrix.env_name }}
+      - shell: pwsh
+        run: |
+          echo ${Env:\${{ matrix.env_name }}}
+      - shell: powershell
+        run: |
+          echo ${Env:\${{ matrix.env_name }}}
+      - shell: cmd
+        run: |
+          echo %${{ matrix.env_name }}%
