@@ -16,7 +16,7 @@ jobs:
     env:
       ${{ matrix.env_name }}: foobar
     steps:
-      - uses: ilammy/msvc-dev-cmd@d39d8f7626e5667b00caa504eaefd7c24c9ba49d  # v1.7.0
+      - uses: ilammy/msvc-dev-cmd@5611a7cba9fd84307041db1bbbee201c40ee5bf5 # v1.8.0
       - shell: bash -l {0}  # Invalid value: bash -l {0}
         run: |
           echo $${{ matrix.env_name }}
