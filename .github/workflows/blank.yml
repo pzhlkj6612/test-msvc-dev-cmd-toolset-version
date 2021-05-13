@@ -13,10 +13,11 @@ jobs:
           - "platform"
           - "Platform"  # vcvarsall
           - "PLATFORM"  # issue#38
+        msvc-dev-cmd_version: ["v1.7.0", "v1.8.0"]
     env:
       ${{ matrix.env_name }}: foobar
     steps:
-      - uses: ilammy/msvc-dev-cmd@5611a7cba9fd84307041db1bbbee201c40ee5bf5 # v1.8.0
+      - uses: ilammy/msvc-dev-cmd@${{ matrix.msvc-dev-cmd_version }}
       - shell: bash -l {0}  # Invalid value: bash -l {0}
         run: |
           echo $${{ matrix.env_name }}
