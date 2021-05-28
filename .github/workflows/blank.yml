@@ -5,14 +5,15 @@ on:
   workflow_dispatch:
 jobs:
   build:
-    runs-on: windows-2019
+    runs-on: windows-latest
     strategy:
       fail-fast: false
       matrix:
-        toolset_version: [14, 14.0, 14.1, 14.2]
+        toolset_version: [14, 14.0, 14.1, 14.2, 14.28]
     steps:
-      - uses: ilammy/msvc-dev-cmd@dd5e2fa0a7de1e7929605d9ecc020e749d9856a3
+      - uses: ilammy/msvc-dev-cmd@v1
         with:
+          arch: amd64
           toolset: ${{ matrix.toolset_version }}
       - run: cl.exe
       - run: set
